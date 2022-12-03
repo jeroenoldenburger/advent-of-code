@@ -1,0 +1,19 @@
+# Rock == Rock -> 3 + 1 = 4
+A X
+# Rock < Paper -> 6 + 2 = 8
+A Y
+# Rock > Scissors -> 0 + 3 = 3
+A Z
+# Paper > Rock -> 0 + 1 = 1
+B X
+# Paper == Paper -> 3 + 2 = 5
+B Y
+# Paper < Scissors -> 6 + 3 = 9
+B Z
+# Scissors < Rock -> 6 + 1 = 7
+C X
+# Scissors > Paper -> 0 + 2 = 2
+C Y
+# Scissors == Scissors -> 3 + 3 = 6
+C Z
+# Total = 4 + 8 + 3 + 1 + 5 + 9 + 7 + 2 + 6 = 45
