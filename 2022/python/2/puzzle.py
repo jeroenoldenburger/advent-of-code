@@ -19,6 +19,12 @@ class MyShape(Enum):
     Z = HandShape.SCISSORS
 
 
+class Outcome(Enum):
+    X = 0  # loose
+    Y = 3  # draw
+    Z = 6  # win
+
+
 def score(opponent_shape, my_shape):
     if opponent_shape.value == HandShape.ROCK:
         if my_shape.value == HandShape.ROCK:
@@ -43,6 +49,30 @@ def score(opponent_shape, my_shape):
             return 3
 
 
+def score_part2(opponent_shape, outcome):
+    if opponent_shape.value == HandShape.ROCK:
+        if outcome == Outcome.X:
+            return 0 + HandShape.SCISSORS.value
+        elif outcome == Outcome.Y:
+            return 3 + HandShape.ROCK.value
+        elif outcome == Outcome.Z:
+            return 6 + HandShape.PAPER.value
+    elif opponent_shape.value == HandShape.PAPER:
+        if outcome == Outcome.X:
+            return 0 + HandShape.ROCK.value
+        elif outcome == Outcome.Y:
+            return 3 + HandShape.PAPER.value
+        elif outcome == Outcome.Z:
+            return 6 + HandShape.SCISSORS.value
+    elif opponent_shape.value == HandShape.SCISSORS:
+        if outcome == Outcome.X:
+            return 0 + HandShape.PAPER.value
+        elif outcome == Outcome.Y:
+            return 3 + HandShape.SCISSORS.value
+        elif outcome == Outcome.Z:
+            return 6 + HandShape.ROCK.value
+
+
 def solve(case):
     lines = open(case).read().splitlines()
     rounds = [line.strip().split(" ") for line in lines if not line.startswith("#")]
@@ -51,5 +81,13 @@ def solve(case):
     return sum(scores)
 
 
+def solve_part2(case):
+    lines = open(case).read().splitlines()
+    rounds = [line.strip().split(" ") for line in lines if not line.startswith("#")]
+    moves = [(OpponentShape[opponent], Outcome[outcome]) for opponent, outcome in rounds]
+    scores = [score_part2(opponent_shape, outcome) for opponent_shape, outcome in moves]
+    return sum(scores)
+
+
 if __name__ == '__main__':
-    print(solve("input.txt"))
+    print(solve_part2("input.txt"))
