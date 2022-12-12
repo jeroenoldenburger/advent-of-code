@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass
 from common import iterate_input_lines
 
@@ -48,25 +49,16 @@ def parse_input_to_monkeys(case) ->  dict[str, Monkey]:
 
 def solve(case):
     monkeys = parse_input_to_monkeys(case)
-    # explanation from https://github.com/jonathanpaulson/AdventOfCode/blob/master/2022/11.py
-    # Want to know for each item if it is divisible by e.g. 23,19,13,17
-    # If we just wanted to know if its divisible by 23, we can just keep track of the number modulo 23.
-    # x+a is divisible by 23 iff (x%23)+a is divisible by 23
-    # x*a is divisible by 23 iff (x%23)*a is divisible by 23
-    # We can keep track of the number modulo 23*19*13*17
-    modulus = 1
-    for monkey in monkeys.values():
-        modulus *= monkey.divide_by
+    lcm = math.lcm(*[monkey.divide_by for monkey in monkeys.values()])
     for i in range(10000):
         for monkey_number, monkey in monkeys.items():
             for item in monkey.items:
                 new_level = monkey.inspect(item)
                 # relieved_level = floor(new_level / 3)
-                relieved_level = new_level % modulus
+                relieved_level = new_level % lcm
                 to_monkey = monkey.throw_to_monkey(relieved_level)
                 monkeys[to_monkey].items.append(relieved_level)
             monkey.items = []
-        print()
     times = [monkey.inspect_counter for monkey in monkeys.values()]
     times.sort(reverse=True)
     print(f"Money business score: {times[0] * times[1]}")
