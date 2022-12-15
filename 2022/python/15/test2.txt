@@ -1,0 +1,2 @@
+# beacon is outside the grid created for the sensor
+Sensor at x=2, y=2: closest beacon is at x=3, y=3

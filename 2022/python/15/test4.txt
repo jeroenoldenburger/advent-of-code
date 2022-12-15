@@ -1,0 +1,2 @@
+# sensor at negative x and y
+Sensor at x=-2, y=-2: closest beacon is at x=0, y=0
