@@ -1,0 +1,8 @@
+{
+    "python.venvPath": "/Users/jeroen/workspace/jeroen/advent-of-code/2023/",
+    "python.autoComplete.extraPaths": [
+        
+        "/Users/jeroen/workspace/jeroen/advent-of-code/2023/python/common/"
+    ],
+    "python.analysis.extraPaths": []
+}
