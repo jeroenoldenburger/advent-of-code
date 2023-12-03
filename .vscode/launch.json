@@ -10,7 +10,7 @@
             "request": "launch",
             "type": "dart",
             "console": "terminal",
-            "program": "2023/dart/day1.dart"
+            "program": "2023/dart/day2.dart"
         }
     ]
 }
