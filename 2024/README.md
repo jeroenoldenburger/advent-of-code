@@ -42,7 +42,7 @@ The project is organized as follows:
 ## 🎄 Daily Progress
 | Day     | Part 1 | Part 2 |
 |---------|--------|--------|
-| Day 1   | ❌ Pending | ❌ Pending |
+| Day 1   | ✅ Done | ✅ Done |
 
 I’ll update this table daily as I progress.
 
@@ -60,7 +60,7 @@ I’ll update this table daily as I progress.
     ```
 3. Run a specific solution:
     ```bash
-    poetry run python day01/part1.py
+    poetry run python day01/solution.py
     ```
 
 ---
