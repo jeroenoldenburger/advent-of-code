@@ -64,18 +64,27 @@ I’ll update this table daily as I progress.
     ```
 
 ---
+
 🔧 Utilities
 Reusable helper functions (e.g., input parsing, benchmarking) are located in utils.py.
+
 ---
+
 💡 My Goals for AoC 2024
 Solve each puzzle on the day it’s released (if possible).
 Write clean, modular code that’s easy to read and reuse.
 Document thought processes and lessons learned for tricky puzzles.
+
 ---
+
 🤝 Contributions
 This is a personal project, but feel free to explore the code and suggest improvements. If you’re also participating in AoC, let’s connect and share ideas!
+
 ---
+
 🎅 Acknowledgments
 A huge thanks to Eric Wastl for creating Advent of Code, and to the amazing community for keeping the event fun and engaging every year. 🎉
+
 ---
+
 ⭐ If you find my solutions interesting or helpful, feel free to star this repo!
