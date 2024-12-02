@@ -40,9 +40,10 @@ The project is organized as follows:
 ---
 
 ## 🎄 Daily Progress
-| Day     | Part 1 | Part 2 |
-|---------|--------|--------|
-| Day 1   | ✅ Done | ✅ Done |
+| Day     | Part 1 | Part 2    |
+|---------|--------|-----------|
+| Day 1   | ✅ Done | ✅ Done    |
+| Day 1   | ✅ Done | ⏳ Pending |
 
 I’ll update this table daily as I progress.
 
