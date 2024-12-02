@@ -77,19 +77,20 @@ def part1_pure_python(input_file_path):
 
 
 def part2_pure_python(input_file_path):
-    def is_incr(mylist: list[int], allow_retry=True) -> bool:
+    def is_incr(mylist: list[int], allow_retry=True):
         for idx, entry in enumerate(mylist):
             if idx > 0:
                 if entry <= mylist[idx - 1]:
                     if allow_retry:
                         newlist = copy.deepcopy(mylist)
                         newlist.pop(idx)
-                        return is_incr(newlist, allow_retry=False)
-                    return False
+                        result, _ = is_incr(newlist, allow_retry=False)
+                        return result, idx
+                    return False, None
         else:
-            return True
+            return True, None
 
-    def is_decl(mylist: list[int], allow_retry=True) -> bool:
+    def is_decl(mylist: list[int], allow_retry=True):
 
         for idx, entry in enumerate(mylist):
             if idx > 0:
@@ -97,10 +98,11 @@ def part2_pure_python(input_file_path):
                     if allow_retry:
                         newlist = copy.deepcopy(mylist)
                         newlist.pop(idx)
-                        return is_decl(newlist, allow_retry=False)
-                    return False
+                        result, _ = is_decl(newlist, allow_retry=False)
+                        return result, idx
+                    return False, None
         else:
-            return True
+            return True, None
 
     def step_size_limit(mylist: list[int], allow_retry=True) -> bool:
         for idx, entry in enumerate(mylist):
@@ -117,7 +119,14 @@ def part2_pure_python(input_file_path):
     valid_reports = 0
     for line in iterate_input_lines(input_file_path):
         cols = [int(x) for x in line.split(" ")]
-        if is_incr(cols) | is_decl(cols):
+
+        is_increment, skipped_idx = is_incr(cols)
+        is_decline = False
+        if not is_increment:
+            is_decline, skipped_idx = is_decl(cols)
+        if is_increment | is_decline:
+            if skipped_idx:
+                cols.pop(skipped_idx)
             if step_size_limit(cols):
                 valid_reports += 1
     print(valid_reports)
