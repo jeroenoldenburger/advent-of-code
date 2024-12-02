@@ -1,136 +1,43 @@
-import copy
-
-import polars as pl
-
-from common import iterate_input_lines
+from itertools import pairwise
+from utils import iterate_input_lines
 
 
-def __get_puzzle_input(input_file_path) -> pl.DataFrame:
-    # the input uses multiple spaces as separator
-    # polars can only use single byte separator
-    # therefore we need to use space a separator and ignore the extra columns that originate
-    # from the additional spaces
-    return pl.scan_csv(input_file_path, separator=" ", has_header=False).collect()
-
-
-def part1(input_file_path):
-    reports = pl.scan_csv(
-        input_file_path, separator=" ", has_header=False, new_columns=["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    )
-
-    ever_incr = (
-        (pl.col("1") > pl.col("2"))
-        & (pl.col("2") > pl.col("3"))
-        & (pl.col("3") > pl.col("4"))
-        & (pl.col("4") > pl.col("5"))
-    )
-    ever_decl = (
-        (pl.col("1") < pl.col("2"))
-        & (pl.col("2") < pl.col("3"))
-        & (pl.col("3") < pl.col("4"))
-        & (pl.col("4") < pl.col("5"))
-    )
-    step_size_within_limits = (
-        ((pl.col("1") - pl.col("2")).abs() < 4)
-        & ((pl.col("2") - pl.col("3")).abs() < 4)
-        & ((pl.col("3") - pl.col("4")).abs() < 4)
-        & ((pl.col("4") - pl.col("5")).abs() < 4)
-    )
-
-    valid_reports = reports.filter((ever_incr | ever_decl)).filter(step_size_within_limits).collect()
-
-    print(len(valid_reports))
+def __is_valid(mylist: list[int]):
+    is_incr = all(a < b for a, b in pairwise(mylist))
+    if not is_incr:
+        is_decl = all(a > b for a, b in pairwise(mylist))
+        if not is_decl:
+            return False
+    return all(abs(a - b) < 4 for a, b in pairwise(mylist))
 
 
 def part1_pure_python(input_file_path):
-    def is_incr(mylist: list[int]) -> bool:
-        for idx, entry in enumerate(mylist):
-            if idx > 0:
-                if entry <= mylist[idx - 1]:
-                    return False
-        else:
-            return True
-
-    def is_decl(mylist: list[int]) -> bool:
-        for idx, entry in enumerate(mylist):
-            if idx > 0:
-                if entry >= mylist[idx - 1]:
-                    return False
-        else:
-            return True
-
-    def step_size_limit(mylist: list[int]) -> bool:
-        for idx, entry in enumerate(mylist):
-            if idx > 0:
-                if abs(entry - mylist[idx - 1]) > 3:
-                    return False
-        else:
-            return True
 
     valid_reports = 0
     for line in iterate_input_lines(input_file_path):
         cols = [int(x) for x in line.split(" ")]
-        if is_incr(cols) | is_decl(cols):
-            if step_size_limit(cols):
-                valid_reports += 1
+        if __is_valid(cols):
+            valid_reports += 1
     print(valid_reports)
 
 
 def part2_pure_python(input_file_path):
-    def is_incr(mylist: list[int], allow_retry=True):
-        for idx, entry in enumerate(mylist):
-            if idx > 0:
-                if entry <= mylist[idx - 1]:
-                    if allow_retry:
-                        newlist = copy.deepcopy(mylist)
-                        newlist.pop(idx)
-                        result, _ = is_incr(newlist, allow_retry=False)
-                        return result, idx
-                    return False, None
-        else:
-            return True, None
-
-    def is_decl(mylist: list[int], allow_retry=True):
-
-        for idx, entry in enumerate(mylist):
-            if idx > 0:
-                if entry >= mylist[idx - 1]:
-                    if allow_retry:
-                        newlist = copy.deepcopy(mylist)
-                        newlist.pop(idx)
-                        result, _ = is_decl(newlist, allow_retry=False)
-                        return result, idx
-                    return False, None
-        else:
-            return True, None
-
-    def step_size_limit(mylist: list[int], allow_retry=True) -> bool:
-        for idx, entry in enumerate(mylist):
-            if idx > 0:
-                if abs(entry - mylist[idx - 1]) > 3:
-                    if allow_retry:
-                        newlist = copy.deepcopy(mylist)
-                        newlist.pop(idx)
-                        return step_size_limit(newlist, allow_retry=False)
-                    return False
-        else:
-            return True
 
     valid_reports = 0
     for line in iterate_input_lines(input_file_path):
         cols = [int(x) for x in line.split(" ")]
+        valid = __is_valid(cols)
+        if not valid:
+            for n in range(len(cols)):
+                tmp_report = cols[:n] + cols[n + 1 :]
+                tmp_resp = __is_valid(tmp_report)
+                valid = True if tmp_resp else valid
+        if valid:
+            valid_reports += 1
 
-        is_increment, skipped_idx = is_incr(cols)
-        is_decline = False
-        if not is_increment:
-            is_decline, skipped_idx = is_decl(cols)
-        if is_increment | is_decline:
-            if skipped_idx:
-                cols.pop(skipped_idx)
-            if step_size_limit(cols):
-                valid_reports += 1
     print(valid_reports)
 
 
 if __name__ == '__main__':
     part2_pure_python("input.txt")
+    exit(0)
