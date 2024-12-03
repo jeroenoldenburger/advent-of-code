@@ -1,6 +1,11 @@
 from itertools import pairwise
 from utils import iterate_input_lines
 
+# i tried with polars at first, which worked nice for the example input for part1.
+# however, my real input revealed that the input format was not tabular, therefore
+# needed something else then polars. Switched back to just plain python just to
+# get it done
+
 
 def __is_valid(mylist: list[int]):
     is_incr = all(a < b for a, b in pairwise(mylist))
