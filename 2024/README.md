@@ -48,6 +48,7 @@ The project is organized as follows:
 | Day 4 | ✅ Done | ⏳ Pending |
 | Day 5 | ✅ Done | ✅ Done |
 | Day 6 | ✅ Done | ⏳ Pending |
+| Day 7 | ✅ Done | ✅ Done |
 
 I’ll update this table daily as I progress.
 
